@@ -1,3 +1,5 @@
+// seed information to fill in database
+// had a problem with the old seed code so im using the new code that Arron sent
 let mongoose = require("mongoose");
 let db = require("../models");
 

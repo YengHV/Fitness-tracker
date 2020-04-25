@@ -44,22 +44,32 @@ app.get("/api/workouts", (req, res) => {
   
 });
 
+
+// post route to update a workout
 app.post("/workoutUpdate", ({body}, res) => {
   db.Workout.create(body)
-    .then(({_id}) => db.Workout.findOneAndUpdate({}, { $push: { workout: _id } }, { new: true }))
+  // new id will be will be selected with a previous id
+  // then it will be push with the new value
+    .then(({_id}) => db.Workout.findOneAndUpdate({}, { $push: { workout: _id } }, { type: "benchpress" }))
+    // then return with the new workout in json formate
     .then(dbWorkout => {
       res.json(dbWorkout);
     })
+    // catch error if there is one
     .catch(err => {
+      // return error in json
       res.json(err);
     });
 });
-
+// route to add a new workout
 app.post("/newWorkout", ({body}, res))
+// workout will be created and then passed into the workout collection
 db.Workout.create({body})
+// if succesful, console log workout
   .then(dbWorkout => {
     console.log(dbWorkout);
   })
+  // if not success full, console log message
   .catch(({message}) => {
     console.log(message);
   });
